@@ -22,6 +22,8 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
     print("Please create a .env file with:")
     print("TELEGRAM_TOKEN=your_token_here")
     print("CHAT_ID=your_chat_id_here")
+    print(f"Current TELEGRAM_TOKEN: {'SET' if TELEGRAM_TOKEN else 'NOT SET'}")
+    print(f"Current CHAT_ID: {'SET' if CHAT_ID else 'NOT SET'}")
     raise ValueError("TELEGRAM_TOKEN and CHAT_ID must be set in environment variables")
 
 def get_main_page_posts():
@@ -123,36 +125,40 @@ def send_telegram_alert(title, link, company, role, badges):
     """Send alert via Telegram with full post details"""
     badge_text = ""
     if badges.get("negative"):
-        badge_text += f"\n👎 Negative Badge: {badges['negative']}"
-    if badges.get("not_verified"):
-        badge_text += f"\n❌ Not Verified: {badges['not_verified']}"
+        badge_text += f"⚠️ {badges['negative']} "
     if badges.get("positive"):
-        badge_text += f"\n✅ Positive: {badges['positive']}"
-    if badges.get("mixed"):
-        badge_text += f"\n⚖️ Mixed: {badges['mixed']}"
+        badge_text += f"✅ {badges['positive']} "
+    
+    message = f"""
+🚨 *New Job Alert!*
 
-    message = (
-        f"*New Review:*\n\n"
-        f"Title: {title}\n"
-        f"Author: {company} ({role})\n"
-        f"{badge_text}\n"
-        f"[Read Full]({link})\n"
+📝 *Title:* {title}
+🏢 *Company:* {company}
+💼 *Role:* {role}
+{badge_text}
 
+🔗 [View Full Post]({link})
 
-    )
+#DeshiMula #JobAlert
+"""
     
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
-        "chat_id": CHAT_ID,
-        "text": message,
-        "parse_mode": "Markdown"
+        'chat_id': CHAT_ID,
+        'text': message,
+        'parse_mode': 'Markdown',
+        'disable_web_page_preview': False
     }
+    
     try:
+        print(f"🔄 Sending Telegram notification for: {title}")
         response = requests.post(url, data=payload)
+        print(f"📡 Telegram API Response: {response.status_code}")
         if response.status_code == 200:
             print(f"✅ Telegram notification sent: {title}")
         else:
             print(f"❌ Failed to send Telegram message: {response.status_code}")
+            print(f"Response: {response.text}")
     except Exception as e:
         print(f"❌ Telegram API error: {e}")
 
