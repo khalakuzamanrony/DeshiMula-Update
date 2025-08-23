@@ -5,6 +5,7 @@ import time
 import json
 import os
 from dotenv import load_dotenv
+import cloudscraper
 
 # Load environment variables
 load_dotenv()
@@ -30,15 +31,49 @@ def get_main_page_posts():
     """Scrape basic info (title, link, author, badges) from the main page"""
     try:
         print(f"🌐 Fetching URL: {URL}")
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-        }
-        response = requests.get(URL, headers=headers, timeout=30)
+        
+        # Try cloudscraper first (best for Cloudflare bypass)
+        try:
+            print("🛡️ Attempting Cloudflare bypass with cloudscraper...")
+            scraper = cloudscraper.create_scraper(
+                browser={
+                    'browser': 'chrome',
+                    'platform': 'windows',
+                    'desktop': True
+                }
+            )
+            response = scraper.get(URL, timeout=30)
+            print(f"📡 Cloudscraper - Response status: {response.status_code}")
+            
+        except Exception as e:
+            print(f"⚠️ Cloudscraper failed: {e}")
+            print("🔄 Falling back to requests with headers...")
+            
+            # Fallback to requests with multiple attempts
+            session = requests.Session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+            }
+            
+            response = session.get(URL, headers=headers, timeout=30)
+            print(f"📡 Requests fallback - Response status: {response.status_code}")
+            
+            # If still blocked, try with delay
+            if response.status_code == 403 or "Just a moment" in response.text:
+                print("🛡️ Still blocked - waiting and retrying...")
+                time.sleep(8)
+                headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                response = session.get(URL, headers=headers, timeout=30)
+                print(f"📡 Final attempt - Response status: {response.status_code}")
         print(f"📡 Response status: {response.status_code}")
         print(f"📄 Response length: {len(response.text)} characters")
         soup = BeautifulSoup(response.text, 'html.parser')
