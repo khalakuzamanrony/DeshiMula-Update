@@ -33,5 +33,9 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "bot@example.com"
           git add seen_posts.json
-          git commit -m "Update seen posts state" || echo "No changes to commit"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update seen posts state"
+            git push
+          fi

@@ -109,10 +109,10 @@ def load_seen_posts():
         with open(STATE_FILE, 'r') as f:
             content = f.read().strip()
             if not content:
-                return []
+                return None  # Empty file
             return json.loads(content)
     except (FileNotFoundError, json.JSONDecodeError):
-        return []
+        return None  # File doesn't exist or is corrupted
 
 def save_seen_posts(posts):
     """Save current posts to state file"""
@@ -160,11 +160,34 @@ if __name__ == "__main__":
     print("🔍 DeshiMula Review Monitor Started")
     
     seen_posts = load_seen_posts()
-    print(f"📋 Loaded {len(seen_posts)} previously seen posts")
     
     print("🌐 Checking for new posts...")
     current_posts = get_main_page_posts()
     print(f"📊 Found {len(current_posts)} current posts on the website")
+    
+    # If seen_posts.json doesn't exist or is empty, initialize with current posts
+    if seen_posts is None:
+        print("📄 No previous posts file found - initializing with current posts")
+        print(f"🆕 Found {len(current_posts)} posts to process (first run)")
+        
+        # Send notifications for all current posts on first run
+        for post in current_posts:
+            print(f"📝 Processing: {post['title']}")
+            content = get_post_content(post["link"])
+            send_telegram_alert(
+                title=post["title"],
+                link=post["link"],
+                company=post["company"],
+                role=post["role"],
+                badges=post["badges"],
+            )
+        
+        save_seen_posts(current_posts)
+        print(f"💾 Created seen_posts.json with {len(current_posts)} posts")
+        print(f"✅ Initialization complete - {len(current_posts)} notifications sent")
+        exit(0)
+    
+    print(f"📋 Loaded {len(seen_posts)} previously seen posts")
     
     new_posts = [
         post for post in current_posts 
