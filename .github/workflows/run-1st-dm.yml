@@ -1,0 +1,37 @@
+name: Run Script Every 20 Minutes
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'  # Runs every 20 minutes
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Run Script
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python 1st-dm-post.py
+        
+      - name: Commit State Changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "bot@example.com"
+          git add seen_posts.json
+          git commit -m "Update seen posts state" || echo "No changes to commit"
+          git push
