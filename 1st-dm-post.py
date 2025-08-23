@@ -107,8 +107,11 @@ def load_seen_posts():
     """Load previously seen posts from state file"""
     try:
         with open(STATE_FILE, 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
+            content = f.read().strip()
+            if not content:
+                return []
+            return json.loads(content)
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
 
 def save_seen_posts(posts):
