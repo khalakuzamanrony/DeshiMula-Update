@@ -1,0 +1,55 @@
+name: Run All Posts Scraper (Manual Only)
+
+on:
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      reason:
+        description: 'Reason for running the scraper'
+        required: false
+        default: 'Manual trigger'
+
+jobs:
+  run-allpost-scraper:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Run All Posts Scraper
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          echo "Running all posts scraper..."
+          echo "Reason: ${{ github.event.inputs.reason }}"
+          echo "Python version: $(python --version)"
+          echo "Current directory: $(pwd)"
+          echo "Files in directory: $(ls -la)"
+          python allpost.py
+        
+      - name: Commit All Posts Changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "bot@example.com"
+          git add all_posts.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update all posts data - ${{ github.event.inputs.reason }}"
+            git push
+          fi

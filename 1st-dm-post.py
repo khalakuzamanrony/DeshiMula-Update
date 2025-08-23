@@ -126,22 +126,10 @@ def get_main_page_posts():
             role = role_elem.text.strip() if role_elem else None
             
             # Extract badges (if any)
-            badges = {}
-            negative_badge = container.find('div', class_='badge bg-danger soft')
-            if negative_badge:
-                badges["negative"] = negative_badge.text.strip()
-            
-            not_verified_badge = container.find('div', class_='badge bg-secondary soft')
-            if not_verified_badge:
-                badges["not_verified"] = not_verified_badge.text.strip()
-            
-            verified_badge = container.find('div', class_='badge bg-secondary soft')
-            if verified_badge:
-                badges["verified"] = verified_badge.text.strip()
-            
-            mixed_badge = container.find('div', class_='badge bg-secondary soft')
-            if mixed_badge:
-                badges["mixed"] = mixed_badge.text.strip()
+            badges = []
+            badge_elems = container.find_all('div', class_='badge')
+            for badge in badge_elems:
+                badges.append(badge.text.strip())
             
             if title and link:
                 posts.append({
@@ -190,11 +178,7 @@ def save_seen_posts(posts):
 
 def send_telegram_alert(title, link, company, role, badges):
     """Send alert via Telegram with full post details"""
-    badge_text = ""
-    if badges.get("negative"):
-        badge_text += f"⚠️ {badges['negative']} "
-    if badges.get("positive"):
-        badge_text += f"✅ {badges['positive']} "
+    badge_text = ", ".join(badges) if badges else "No badges"
     
     message = f"""
 🚨 *New Review Alert!*
@@ -202,11 +186,9 @@ def send_telegram_alert(title, link, company, role, badges):
 📝 *Title:* {title}
 🏢 *Company:* {company}
 💼 *Role:* {role}
-{badge_text}
+🏷️ *Type:* {badge_text}
 
 🔗 [View Full Post]({link})
-
-#DeshiMula #JobAlert
 """
     
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
