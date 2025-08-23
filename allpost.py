@@ -63,44 +63,103 @@ def format_post_message(post):
 🔗 <b>Link:</b> <a href="{post['link']}">View Full Post</a>"""
     return message
 
-def get_page_posts(page_url):
-    """Get posts from a single page"""
+def get_page_posts(url):
+    """Get posts from a single page with Cloudflare bypass"""
     try:
-        response = requests.get(page_url)
+        log(f"🌐 Fetching URL: {url}")
+        
+        # Try cloudscraper first (best for Cloudflare bypass)
+        try:
+            log("🛡️ Attempting Cloudflare bypass with cloudscraper...")
+            scraper = cloudscraper.create_scraper(
+                browser={
+                    'browser': 'chrome',
+                    'platform': 'windows',
+                    'desktop': True
+                }
+            )
+            response = scraper.get(url, timeout=30)
+            log(f"📡 Cloudscraper - Response status: {response.status_code}")
+            
+        except Exception as e:
+            log(f"⚠️ Cloudscraper failed: {e}")
+            log("🔄 Falling back to requests with headers...")
+            
+            # Fallback to requests with multiple attempts
+            session = requests.Session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+            }
+            
+            response = session.get(url, headers=headers, timeout=30)
+            log(f"📡 Requests fallback - Response status: {response.status_code}")
+            
+            # If still blocked, try with delay
+            if response.status_code == 403 or "Just a moment" in response.text:
+                log("🛡️ Still blocked - waiting and retrying...")
+                time.sleep(8)
+                headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                response = session.get(url, headers=headers, timeout=30)
+                log(f"📡 Final attempt - Response status: {response.status_code}")
+        
+        log(f"📄 Response length: {len(response.text)} characters")
         soup = BeautifulSoup(response.text, 'html.parser')
         
         posts = []
         post_containers = soup.find_all('div', class_='container mt-5')
+        log(f"🔍 Found {len(post_containers)} post containers")
+        
+        # Debug: Print first 1000 chars of HTML to see structure
+        if len(post_containers) == 0:
+            log(f"📝 HTML sample: {response.text[:1000]}...")
+            log("🔍 Trying alternative selectors...")
+            alt_containers = soup.find_all('div', class_='container')
+            log(f"🔍 Found {len(alt_containers)} containers with class 'container'")
         
         for container in post_containers:
+            # Extract title
             title_elem = container.find('div', class_='post-title')
-            title = title_elem.text.strip() if title_elem else "No title"
+            title = title_elem.text.strip() if title_elem else None
             
+            # Extract link
             link_elem = container.find('a', class_='hyper-link')
-            link = urljoin(BASE_URL, link_elem['href']) if link_elem else "No link"
+            link = urljoin(BASE_URL, link_elem['href']) if link_elem else None
             
+            # Extract company
             company_elem = container.find('span', class_='company-name')
-            company = company_elem.text.strip() if company_elem else "Unknown"
+            company = company_elem.text.strip() if company_elem else None
             
+            # Extract role
             role_elem = container.find('span', class_='reviewer-role')
-            role = role_elem.text.strip() if role_elem else "Unknown"
+            role = role_elem.text.strip() if role_elem else None
             
+            # Extract badges
             badges = []
             badge_elems = container.find_all('div', class_='badge')
             for badge in badge_elems:
                 badges.append(badge.text.strip())
             
-            posts.append({
-                "title": title,
-                "link": link,
-                "company": company,
-                "role": role,
-                "badges": badges
-            })
-            
+            if title and link:
+                posts.append({
+                    "title": title,
+                    "link": link,
+                    "company": company,
+                    "role": role,
+                    "badges": badges
+                })
+        
         return posts
     except Exception as e:
-        log(f"Error scraping page {page_url}: {e}")
+        log(f"Error scraping page {url}: {e}")
         return []
 
 def load_existing_posts(filename):
