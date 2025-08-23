@@ -197,7 +197,7 @@ def send_telegram_alert(title, link, company, role, badges):
         badge_text += f"✅ {badges['positive']} "
     
     message = f"""
-🚨 *New Job Alert!*
+🚨 *New Review Alert!*
 
 📝 *Title:* {title}
 🏢 *Company:* {company}
