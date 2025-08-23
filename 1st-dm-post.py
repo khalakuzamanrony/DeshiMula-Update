@@ -29,12 +29,19 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
 def get_main_page_posts():
     """Scrape basic info (title, link, author, badges) from the main page"""
     try:
-        response = requests.get(URL)
+        print(f"🌐 Fetching URL: {URL}")
+        response = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+        print(f"📡 Response status: {response.status_code}")
+        print(f"📄 Response length: {len(response.text)} characters")
         soup = BeautifulSoup(response.text, 'html.parser')
         
         posts = []
         # Find all post containers (adjust selector if needed)
         post_containers = soup.find_all('div', class_='container mt-5')[:1]  # Only first post
+        print(f"🔍 Found {len(post_containers)} post containers")
+        
+        # Debug: Print first 500 chars of HTML to see structure
+        print(f"📝 HTML sample: {response.text[:500]}...")
         
         for container in post_containers:
             # Extract title
