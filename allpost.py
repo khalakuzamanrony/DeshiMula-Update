@@ -175,13 +175,9 @@ def load_existing_posts(filename):
         return []
 
 def get_all_posts():
-    """Get all posts from all pages - only scrape new pages"""
+    """Get all posts from all pages"""
     all_posts = []
     current_page = 1
-    
-    # Load existing posts to determine where to start scraping
-    existing_posts = load_existing_posts(OUTPUT_FILE)
-    existing_links = {post['link'] for post in existing_posts} if existing_posts else set()
     
     while True:
         if current_page == 1:
@@ -192,62 +188,39 @@ def get_all_posts():
         
         page_posts = get_page_posts(page_url)
         if not page_posts:
-            log("No more pages found")
-            break
-        
-        # Check if all posts on this page already exist
-        page_links = {post['link'] for post in page_posts}
-        if existing_links and page_links.issubset(existing_links):
-            log(f"Page {current_page} already fully scraped - stopping here")
-            # Add existing posts from this page onwards to maintain order
-            remaining_posts = [post for post in existing_posts if post['link'] in page_links]
-            all_posts.extend(remaining_posts)
+            log(f"No more pages found after page {current_page-1}")
             break
             
         all_posts.extend(page_posts)
         current_page += 1
         
-        # Check for next page button - simplified approach
-        response = requests.get(page_url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        
-        # Look for pagination container and check if there are more pages
-        pagination_container = soup.find('div', class_='pagination-container')
-        if not pagination_container:
-            pagination_container = soup.find('ul', class_='pagination')
-        
-        # Try to find next page link by looking for stories/{number} format
-        page_links = soup.find_all('a', href=True)
-        next_page_exists = False
-        
-        for link in page_links:
-            href = link.get('href', '')
-            if f'stories/{current_page + 1}' in href:
-                next_page_exists = True
-                break
-        
-        # Also check if we can construct next page URL and test if it has content
-        if not next_page_exists:
-            next_page_url = f"{BASE_URL}stories/{current_page + 1}"
-            log(f"Testing next page URL: {next_page_url}")
-            try:
-                test_response = requests.get(next_page_url)
-                test_soup = BeautifulSoup(test_response.text, 'html.parser')
-                test_posts = test_soup.find_all('div', class_='container mt-5')
-                log(f"Test page response status: {test_response.status_code}")
-                log(f"Test page found {len(test_posts)} post containers")
-                if test_posts and test_response.status_code == 200:
-                    next_page_exists = True
-                    log(f"✅ Page {current_page + 1} has content - continuing")
-                else:
-                    log(f"❌ Page {current_page + 1} has no posts or returned error - stopping")
-            except Exception as e:
-                log(f"Error testing page {current_page + 1}: {e}")
-        
-        if not next_page_exists:
-            log(f"No more pages found after page {current_page}")
-            break
+        # Test next page with cloudscraper to avoid Cloudflare blocks
+        next_page_url = f"{BASE_URL}stories/{current_page}"
+        log(f"Testing next page URL: {next_page_url}")
+        try:
+            # Use cloudscraper for testing next page
+            scraper = cloudscraper.create_scraper(
+                browser={
+                    'browser': 'chrome',
+                    'platform': 'windows',
+                    'desktop': True
+                }
+            )
+            test_response = scraper.get(next_page_url, timeout=30)
+            test_soup = BeautifulSoup(test_response.text, 'html.parser')
+            test_posts = test_soup.find_all('div', class_='container mt-5')
+            log(f"Test page response status: {test_response.status_code}")
+            log(f"Test page found {len(test_posts)} post containers")
             
+            if len(test_posts) > 0:
+                log(f"✅ Page {current_page} has content - continuing")
+            else:
+                log(f"❌ Page {current_page} has no posts or returned error - stopping")
+                break
+        except Exception as e:
+            log(f"Error testing next page: {e}")
+            break
+    
     return all_posts
 
 def find_new_posts(current_posts, existing_posts):
@@ -284,8 +257,8 @@ if __name__ == "__main__":
     if new_posts:
         send_telegram_notification(f"🎉 Found {len(new_posts)} new job posts on DeshiMula!")
         
-        # Reverse the order so latest posts (from page 1) are sent first
-        for post in reversed(new_posts):
+        # Send posts in website order (latest first - no reversal needed)
+        for post in new_posts:
             message = format_post_message(post)
             send_telegram_notification(message)
             time.sleep(1)  # Rate limiting
