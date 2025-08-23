@@ -30,7 +30,15 @@ def get_main_page_posts():
     """Scrape basic info (title, link, author, badges) from the main page"""
     try:
         print(f"🌐 Fetching URL: {URL}")
-        response = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+        }
+        response = requests.get(URL, headers=headers, timeout=30)
         print(f"📡 Response status: {response.status_code}")
         print(f"📄 Response length: {len(response.text)} characters")
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -40,8 +48,25 @@ def get_main_page_posts():
         post_containers = soup.find_all('div', class_='container mt-5')[:1]  # Only first post
         print(f"🔍 Found {len(post_containers)} post containers")
         
-        # Debug: Print first 500 chars of HTML to see structure
-        print(f"📝 HTML sample: {response.text[:500]}...")
+        # Debug: Print first 1000 chars of HTML to see structure
+        print(f"📝 HTML sample: {response.text[:1000]}...")
+        
+        # Also try alternative selectors in case the structure is different
+        if len(post_containers) == 0:
+            print("🔍 Trying alternative selectors...")
+            alt_containers = soup.find_all('div', class_='container')
+            print(f"🔍 Found {len(alt_containers)} containers with class 'container'")
+            
+            # Look for any divs that might contain posts
+            all_divs = soup.find_all('div')
+            post_like_divs = [div for div in all_divs if 'post' in str(div.get('class', [])).lower()]
+            print(f"🔍 Found {len(post_like_divs)} divs with 'post' in class name")
+            
+            # Check for specific elements that indicate posts
+            titles = soup.find_all('div', class_='post-title')
+            links = soup.find_all('a', class_='hyper-link')
+            print(f"🔍 Found {len(titles)} post-title elements")
+            print(f"🔍 Found {len(links)} hyper-link elements")
         
         for container in post_containers:
             # Extract title

@@ -31,7 +31,12 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: python 1st-dm-post.py
+        run: |
+          echo "Environment check:"
+          echo "Python version: $(python --version)"
+          echo "Current directory: $(pwd)"
+          echo "Files in directory: $(ls -la)"
+          python 1st-dm-post.py
         
       - name: Commit State Changes
         run: |
