@@ -30,37 +30,64 @@ def log(msg):
     print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}")
 
 def send_telegram_notification(message):
-    """Send notification to Telegram"""
-    try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {
-            'chat_id': CHAT_ID,
-            'text': message,
-            'parse_mode': 'HTML',
-            'disable_web_page_preview': False
-        }
-        response = requests.post(url, data=payload, timeout=30)
-        if response.status_code == 200:
-            log("Telegram notification sent successfully")
-            return True
-        else:
-            log(f"Failed to send Telegram notification: {response.status_code}")
-            log(f"Response text: {response.text}")
+    """Send notification to Telegram with retry mechanism"""
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+            payload = {
+                'chat_id': CHAT_ID,
+                'text': message,
+                'parse_mode': 'HTML',
+                'disable_web_page_preview': False
+            }
+            response = requests.post(url, data=payload, timeout=30)
+            
+            if response.status_code == 200:
+                log("Telegram notification sent successfully")
+                return True
+            elif response.status_code == 429:
+                # Rate limited - extract retry_after from response
+                try:
+                    error_data = response.json()
+                    retry_after = error_data.get('parameters', {}).get('retry_after', 30)
+                    log(f"Rate limited. Waiting {retry_after} seconds before retry...")
+                    time.sleep(retry_after + 1)
+                except:
+                    log("Rate limited. Waiting 30 seconds before retry...")
+                    time.sleep(30)
+                continue
+            else:
+                log(f"Failed to send Telegram notification: {response.status_code}")
+                log(f"Response text: {response.text}")
+                if attempt < max_retries - 1:
+                    log(f"Retrying in 5 seconds...")
+                    time.sleep(5)
+                    continue
+                return False
+        except Exception as e:
+            log(f"Error sending Telegram notification: {e}")
+            if attempt < max_retries - 1:
+                log(f"Retrying in 5 seconds...")
+                time.sleep(5)
+                continue
             return False
-    except Exception as e:
-        log(f"Error sending Telegram notification: {e}")
-        return False
+    
+    return False
 
-def format_post_message(post):
+def format_post_message(post, count=None):
     """Format a post for Telegram message"""
     badges_text = ", ".join(post['badges']) if post['badges'] else "No badges"
-    message = f"""🔔 <b>New Review Post Found!</b>
+    count_text = f" #{count}" if count else ""
+    
+    message = f"""🚨 <b>New Review Alert!{count_text}</b>
 
-📋 <b>Title:</b> {post['title']}
+📝 <b>Title:</b> {post['title']}
 🏢 <b>Company:</b> {post['company']}
-👤 <b>Role:</b> {post['role']}
+💼 <b>Role:</b> {post['role']}
 🏷️ <b>Type:</b> {badges_text}
-🔗 <b>Link:</b> <a href="{post['link']}">View Full Post</a>"""
+
+🔗 <a href="{post['link']}">View Full Post</a>"""
     return message
 
 def get_page_posts(url):
@@ -149,7 +176,10 @@ def get_page_posts(url):
                 badges.append(badge.text.strip())
             
             if title and link:
+                # Create unique identifier for each post
+                post_id = f"{title}_{link}"
                 posts.append({
+                    "id": post_id,
                     "title": title,
                     "link": link,
                     "company": company,
@@ -175,15 +205,12 @@ def load_existing_posts(filename):
         return []
 
 def get_all_posts():
-    """Get all posts from all pages"""
+    """Get all posts from all pages starting from page 2"""
     all_posts = []
-    current_page = 1
+    current_page = 2  # Start from page 2, skip first page
     
     while True:
-        if current_page == 1:
-            page_url = BASE_URL
-        else:
-            page_url = f"{BASE_URL}stories/{current_page}"
+        page_url = f"{BASE_URL}stories/{current_page}"
         log(f"Scraping page {current_page}: {page_url}")
         
         page_posts = get_page_posts(page_url)
@@ -195,7 +222,7 @@ def get_all_posts():
         current_page += 1
         
         # Test next page with cloudscraper to avoid Cloudflare blocks
-        next_page_url = f"{BASE_URL}stories/{current_page}"
+        next_page_url = f"{BASE_URL}stories/{current_page + 1}"
         log(f"Testing next page URL: {next_page_url}")
         try:
             # Use cloudscraper for testing next page
@@ -213,9 +240,9 @@ def get_all_posts():
             log(f"Test page found {len(test_posts)} post containers")
             
             if len(test_posts) > 0:
-                log(f"✅ Page {current_page} has content - continuing")
+                log(f"✅ Page {current_page + 1} has content - continuing")
             else:
-                log(f"❌ Page {current_page} has no posts or returned error - stopping")
+                log(f"❌ Page {current_page + 1} has no posts or returned error - stopping")
                 break
         except Exception as e:
             log(f"Error testing next page: {e}")
@@ -224,9 +251,9 @@ def get_all_posts():
     return all_posts
 
 def find_new_posts(current_posts, existing_posts):
-    """Find new posts by comparing with existing ones"""
-    existing_links = {post['link'] for post in existing_posts}
-    new_posts = [post for post in current_posts if post['link'] not in existing_links]
+    """Find new posts by comparing with existing ones using IDs"""
+    existing_ids = {post.get('id', f"{post['title']}_{post['link']}") for post in existing_posts}
+    new_posts = [post for post in current_posts if post['id'] not in existing_ids]
     return new_posts
 
 def save_to_file(posts, filename):
@@ -239,32 +266,40 @@ def save_to_file(posts, filename):
         log(f"Error saving file: {e}")
 
 if __name__ == "__main__":
-    log("Starting full site scraper...")
+    log("🔍 DeshiMula All Posts Monitor Started (Starting from Page 2)")
     
     # Load existing posts
     existing_posts = load_existing_posts(OUTPUT_FILE)
-    log(f"Loaded {len(existing_posts)} existing posts")
+    log(f"📋 Loaded {len(existing_posts)} existing posts")
     
-    # Get current posts
+    # Get current posts from all pages (starting from page 2)
+    log("🌐 Scraping all pages (skipping first page)...")
     current_posts = get_all_posts()
-    log(f"Found {len(current_posts)} total posts")
+    log(f"📊 Found {len(current_posts)} total posts across all pages (excluding first page)")
     
     # Find new posts
     new_posts = find_new_posts(current_posts, existing_posts)
-    log(f"Found {len(new_posts)} new posts")
+    log(f"🆕 Found {len(new_posts)} new posts")
     
-    # Send notifications for new posts
+    # Send notifications for new posts in reverse order (so last post gets #1)
     if new_posts:
-        send_telegram_notification(f"🎉 Found {len(new_posts)} new job posts on DeshiMula!")
+        log(f"Sending {len(new_posts)} notifications to Telegram...")
         
-        # Send posts in website order (latest first - no reversal needed)
-        for post in new_posts:
-            message = format_post_message(post)
-            send_telegram_notification(message)
-            time.sleep(1)  # Rate limiting
+        # Send posts in reverse order so last post gets #1, second last gets #2, etc.
+        for i, post in enumerate(reversed(new_posts), 1):
+            log(f"📝 Processing #{i}: {post['title']}")
+            message = format_post_message(post, i)
+            if send_telegram_notification(message):
+                log(f"✅ Sent notification #{i}")
+            else:
+                log(f"❌ Failed to send notification #{i}")
+            time.sleep(3)  # Increased rate limiting to 3 seconds
+        
+        log(f"📊 Completed sending {len(new_posts)} notifications")
     else:
         log("No new posts found")
     
-    # Save all posts
+    # Save all posts to JSON
     save_to_file(current_posts, OUTPUT_FILE)
-    log("Scraping completed!")
+    log(f"💾 Saved {len(current_posts)} total posts to {OUTPUT_FILE}")
+    log("✅ All posts scraping completed!")

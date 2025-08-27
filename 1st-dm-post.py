@@ -14,9 +14,9 @@ load_dotenv()
 # Configuration from environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-URL = "https://deshimula.com/"
+BASE_URL = "https://deshimula.com/"
 STATE_FILE = "seen_posts.json"
-MAX_POSTS = 30  # Number of posts to scrape from first page
+MAX_PAGES = 5  # Number of pages to scrape (first 5 pages)
 
 
 # Validate required environment variables
@@ -29,10 +29,10 @@ if not TELEGRAM_TOKEN or not CHAT_ID:
     print(f"Current CHAT_ID: {'SET' if CHAT_ID else 'NOT SET'}")
     raise ValueError("TELEGRAM_TOKEN and CHAT_ID must be set in environment variables")
 
-def get_main_page_posts():
-    """Scrape basic info (title, link, author, badges) from the main page"""
+def get_page_posts(page_url):
+    """Scrape posts from a single page"""
     try:
-        print(f"🌐 Fetching URL: {URL}")
+        print(f"🌐 Fetching URL: {page_url}")
         
         # Try cloudscraper first (best for Cloudflare bypass)
         try:
@@ -44,7 +44,7 @@ def get_main_page_posts():
                     'desktop': True
                 }
             )
-            response = scraper.get(URL, timeout=30)
+            response = scraper.get(page_url, timeout=30)
             print(f"📡 Cloudscraper - Response status: {response.status_code}")
             
         except Exception as e:
@@ -66,7 +66,7 @@ def get_main_page_posts():
                 'Sec-Fetch-User': '?1',
             }
             
-            response = session.get(URL, headers=headers, timeout=30)
+            response = session.get(page_url, headers=headers, timeout=30)
             print(f"📡 Requests fallback - Response status: {response.status_code}")
             
             # If still blocked, try with delay
@@ -74,56 +74,32 @@ def get_main_page_posts():
                 print("🛡️ Still blocked - waiting and retrying...")
                 time.sleep(8)
                 headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
-                response = session.get(URL, headers=headers, timeout=30)
+                response = session.get(page_url, headers=headers, timeout=30)
                 print(f"📡 Final attempt - Response status: {response.status_code}")
+        
         print(f"📡 Response status: {response.status_code}")
         print(f"📄 Response length: {len(response.text)} characters")
         soup = BeautifulSoup(response.text, 'html.parser')
         
         posts = []
-        # Find all post containers (adjust selector if needed)
-        post_containers = soup.find_all('div', class_='container mt-5')[:MAX_POSTS]  # First 30 posts
-        print(f"🔍 Found {len(post_containers)} post containers")
-        
-        # Debug: Print first 1000 chars of HTML to see structure
-        print(f"📝 HTML sample: {response.text[:1000]}...")
-        
-        # Also try alternative selectors in case the structure is different
-        if len(post_containers) == 0:
-            print("🔍 Trying alternative selectors...")
-            alt_containers = soup.find_all('div', class_='container')
-            print(f"🔍 Found {len(alt_containers)} containers with class 'container'")
-            
-            # Look for any divs that might contain posts
-            all_divs = soup.find_all('div')
-            post_like_divs = [div for div in all_divs if 'post' in str(div.get('class', [])).lower()]
-            print(f"🔍 Found {len(post_like_divs)} divs with 'post' in class name")
-            
-            # Check for specific elements that indicate posts
-            titles = soup.find_all('div', class_='post-title')
-            links = soup.find_all('a', class_='hyper-link')
-            print(f"🔍 Found {len(titles)} post-title elements")
-            print(f"🔍 Found {len(links)} hyper-link elements")
+        # Find all post containers
+        post_containers = soup.find_all('div', class_='container mt-5')
+        print(f"🔍 Found {len(post_containers)} post containers on this page")
         
         for container in post_containers:
             # Extract title
             title_elem = container.find('div', class_='post-title')
             title = title_elem.text.strip() if title_elem else None
             
-            # Extract link (now properly joined to base URL)
+            # Extract link (properly joined to base URL)
             link_elem = container.find('a', class_='hyper-link')
-            link = urljoin(URL, link_elem['href']) if link_elem else None
+            link = urljoin(BASE_URL, link_elem['href']) if link_elem else None
             
             # Extract author/company
             company_elem = container.find('span', class_='company-name')
             company = company_elem.text.strip() if company_elem else None
             
             # Extract reviewer role
-            role_elem = container.find('span', class_='reviewer-role')
-            role = role_elem.text.strip() if role_elem else None
-
-
-            # Extract type
             role_elem = container.find('span', class_='reviewer-role')
             role = role_elem.text.strip() if role_elem else None
             
@@ -147,8 +123,34 @@ def get_main_page_posts():
                 
         return posts
     except Exception as e:
-        print(f"Error scraping main page: {e}")
+        print(f"Error scraping page {page_url}: {e}")
         return []
+
+def get_all_posts_from_pages():
+    """Scrape posts from the first 5 pages"""
+    all_posts = []
+    
+    for page_num in range(1, MAX_PAGES + 1):
+        if page_num == 1:
+            page_url = BASE_URL
+        else:
+            page_url = f"{BASE_URL}stories/{page_num}"
+        
+        print(f"📚 Scraping page {page_num}/{MAX_PAGES}: {page_url}")
+        page_posts = get_page_posts(page_url)
+        
+        if page_posts:
+            all_posts.extend(page_posts)
+            print(f"✅ Page {page_num}: Found {len(page_posts)} posts")
+        else:
+            print(f"⚠️ Page {page_num}: No posts found")
+        
+        # Add delay between pages to avoid rate limiting
+        if page_num < MAX_PAGES:
+            time.sleep(2)
+    
+    print(f"📊 Total posts collected from {MAX_PAGES} pages: {len(all_posts)}")
+    return all_posts
 
 def get_post_content(post_link):
     """Fetch full content from the post's detail page"""
@@ -168,26 +170,36 @@ def get_post_content(post_link):
 def load_seen_posts():
     """Load previously seen posts from state file"""
     try:
-        with open(STATE_FILE, 'r') as f:
+        with open(STATE_FILE, 'r', encoding='utf-8') as f:
             content = f.read().strip()
             if not content:
                 return None  # Empty file
             return json.loads(content)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return None  # File doesn't exist or is corrupted
+    except FileNotFoundError:
+        return None  # File doesn't exist
+    except json.JSONDecodeError as e:
+        print(f"⚠️ JSON decode error: {e}")
+        print("🔄 Backing up corrupted file and starting fresh...")
+        # Backup corrupted file
+        import shutil
+        shutil.move(STATE_FILE, f"{STATE_FILE}.backup")
+        return None
+    except Exception as e:
+        print(f"⚠️ Error loading seen posts: {e}")
+        return None
 
 def save_seen_posts(posts):
-    """Save current posts to state file"""
-    with open(STATE_FILE, 'w') as f:
-        json.dump(posts, f)
+    """Save current posts to state file with proper formatting"""
+    with open(STATE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(posts, f, indent=2, ensure_ascii=False)
 
 def send_telegram_alert(title, link, company, role, badges, count=None):
-    """Send alert via Telegram with full post details"""
+    """Send alert via Telegram with full post details and retry mechanism"""
     badge_text = ", ".join(badges) if badges else "No badges"
     count_text = f" #{count}" if count else ""
     
     message = f"""
-🚨 *New Review Alert!{count_text}*
+🚨 *New Review Alert!* 
 
 📝 *Title:* {title}
 🏢 *Company:* {company}
@@ -205,47 +217,76 @@ def send_telegram_alert(title, link, company, role, badges, count=None):
         'disable_web_page_preview': False
     }
     
-    try:
-        print(f"🔄 Sending Telegram notification for: {title}")
-        response = requests.post(url, data=payload)
-        print(f"📡 Telegram API Response: {response.status_code}")
-        if response.status_code == 200:
-            print(f"✅ Telegram notification sent: {title}")
-        else:
-            print(f"❌ Failed to send Telegram message: {response.status_code}")
-            print(f"Response: {response.text}")
-    except Exception as e:
-        print(f"❌ Telegram API error: {e}")
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            print(f"🔄 Sending Telegram notification for: {title} (attempt {attempt + 1})")
+            response = requests.post(url, data=payload, timeout=30)
+            print(f"📡 Telegram API Response: {response.status_code}")
+            
+            if response.status_code == 200:
+                print(f"✅ Telegram notification sent: {title}")
+                return True
+            elif response.status_code == 429:
+                # Rate limited - extract retry_after from response
+                try:
+                    error_data = response.json()
+                    retry_after = error_data.get('parameters', {}).get('retry_after', 30)
+                    print(f"⏳ Rate limited. Waiting {retry_after} seconds before retry...")
+                    time.sleep(retry_after + 1)  # Add 1 extra second
+                except:
+                    print("⏳ Rate limited. Waiting 30 seconds before retry...")
+                    time.sleep(30)
+                continue
+            else:
+                print(f"❌ Failed to send Telegram message: {response.status_code}")
+                print(f"Response: {response.text}")
+                if attempt < max_retries - 1:
+                    print(f"🔄 Retrying in 5 seconds...")
+                    time.sleep(5)
+                    continue
+                return False
+        except Exception as e:
+            print(f"❌ Telegram API error: {e}")
+            if attempt < max_retries - 1:
+                print(f"🔄 Retrying in 5 seconds...")
+                time.sleep(5)
+                continue
+            return False
+    
+    return False
 
 if __name__ == "__main__":
     print(f"🔍 DeshiMula Review Monitor Started - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     seen_posts = load_seen_posts()
     
-    print("🌐 Checking for new posts...")
-    current_posts = get_main_page_posts()
-    print(f"📊 Found {len(current_posts)} current posts on the website")
+    print(f"🌐 Checking for new posts from first {MAX_PAGES} pages...")
+    current_posts = get_all_posts_from_pages()
+    print(f"📊 Found {len(current_posts)} current posts from {MAX_PAGES} pages")
     
-    # If seen_posts.json doesn't exist or is empty, initialize with current posts
+    # Handle both first run and subsequent runs
     if seen_posts is None:
-        print("📄 No previous posts file found - initializing with current posts")
-        print(f"🆕 Found {len(current_posts)} posts to process (first run)")
+        print("📄 No previous posts file found - first run detected")
+        print(f"🆕 Found {len(current_posts)} posts from {MAX_PAGES} pages - sending all as notifications")
         
         # Send notifications for all current posts on first run (reverse order)
         for i, post in enumerate(reversed(current_posts), 1):
-            print(f"📝 Processing #{len(current_posts) - i + 1}: {post['title']}")
+            print(f"📝 Processing #{i}: {post['title']}")
             send_telegram_alert(
                 title=post["title"],
                 link=post["link"],
                 company=post["company"],
                 role=post["role"],
                 badges=post["badges"],
-                count=len(current_posts) - i + 1
+                count=i
             )
+            time.sleep(3)  # Wait 3 seconds between messages to avoid rate limiting
         
+        # Save current posts after sending notifications
         save_seen_posts(current_posts)
         print(f"💾 Created seen_posts.json with {len(current_posts)} posts")
-        print(f"✅ Initialization complete - {len(current_posts)} notifications sent")
+        print(f"✅ First run complete - {len(current_posts)} notifications sent")
     else:
         print(f"📋 Loaded {len(seen_posts)} previously seen posts")
         
@@ -261,15 +302,16 @@ if __name__ == "__main__":
         if new_posts:
             print(f"🆕 Found {len(new_posts)} new posts to process")
             for i, post in enumerate(reversed(new_posts), 1):
-                print(f"📝 Processing #{len(new_posts) - i + 1}: {post['title']}")
+                print(f"📝 Processing #{i}: {post['title']}")
                 send_telegram_alert(
                     title=post["title"],
                     link=post["link"],
                     company=post["company"],
                     role=post["role"],
                     badges=post["badges"],
-                    count=len(new_posts) - i + 1
+                    count=i
                 )
+                time.sleep(3)  # Wait 3 seconds between messages to avoid rate limiting
             
             # Update seen_posts with current_posts (replace old data with new scrape)
             save_seen_posts(current_posts)
@@ -280,4 +322,4 @@ if __name__ == "__main__":
             # Still update the stored data with current scrape
             save_seen_posts(current_posts)
             print(f"💾 Updated seen posts file - stored {len(current_posts)} total posts")
-            print("✅ Monitoring complete - no action needed")
+            print("✅ Monitoring complete - no new notifications needed")

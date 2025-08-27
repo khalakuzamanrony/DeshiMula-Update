@@ -1,8 +1,8 @@
-name: Run Script Every 20 Minutes
+name: Run Script Every Hour
 
 on:
   schedule:
-    - cron: '*/20 * * * *'  # Runs every 20 minutes
+    - cron: '0 * * * *'  # Runs every hour at minute 0
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
