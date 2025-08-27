@@ -6,6 +6,7 @@ import json
 import os
 from dotenv import load_dotenv
 import cloudscraper
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -15,6 +16,7 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 URL = "https://deshimula.com/"
 STATE_FILE = "seen_posts.json"
+MAX_POSTS = 30  # Number of posts to scrape from first page
 
 
 # Validate required environment variables
@@ -80,7 +82,7 @@ def get_main_page_posts():
         
         posts = []
         # Find all post containers (adjust selector if needed)
-        post_containers = soup.find_all('div', class_='container mt-5')[:1]  # Only first post
+        post_containers = soup.find_all('div', class_='container mt-5')[:MAX_POSTS]  # First 30 posts
         print(f"🔍 Found {len(post_containers)} post containers")
         
         # Debug: Print first 1000 chars of HTML to see structure
@@ -132,7 +134,10 @@ def get_main_page_posts():
                 badges.append(badge.text.strip())
             
             if title and link:
+                # Create unique identifier for each post
+                post_id = f"{title}_{link}"
                 posts.append({
+                    "id": post_id,
                     "title": title,
                     "link": link,
                     "company": company,
@@ -176,12 +181,13 @@ def save_seen_posts(posts):
     with open(STATE_FILE, 'w') as f:
         json.dump(posts, f)
 
-def send_telegram_alert(title, link, company, role, badges):
+def send_telegram_alert(title, link, company, role, badges, count=None):
     """Send alert via Telegram with full post details"""
     badge_text = ", ".join(badges) if badges else "No badges"
+    count_text = f" #{count}" if count else ""
     
     message = f"""
-🚨 *New Review Alert!*
+🚨 *New Review Alert!{count_text}*
 
 📝 *Title:* {title}
 🏢 *Company:* {company}
@@ -212,7 +218,7 @@ def send_telegram_alert(title, link, company, role, badges):
         print(f"❌ Telegram API error: {e}")
 
 if __name__ == "__main__":
-    print("🔍 DeshiMula Review Monitor Started")
+    print(f"🔍 DeshiMula Review Monitor Started - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     seen_posts = load_seen_posts()
     
@@ -225,48 +231,53 @@ if __name__ == "__main__":
         print("📄 No previous posts file found - initializing with current posts")
         print(f"🆕 Found {len(current_posts)} posts to process (first run)")
         
-        # Send notifications for all current posts on first run
-        for post in current_posts:
-            print(f"📝 Processing: {post['title']}")
-            content = get_post_content(post["link"])
+        # Send notifications for all current posts on first run (reverse order)
+        for i, post in enumerate(reversed(current_posts), 1):
+            print(f"📝 Processing #{len(current_posts) - i + 1}: {post['title']}")
             send_telegram_alert(
                 title=post["title"],
                 link=post["link"],
                 company=post["company"],
                 role=post["role"],
                 badges=post["badges"],
+                count=len(current_posts) - i + 1
             )
         
         save_seen_posts(current_posts)
         print(f"💾 Created seen_posts.json with {len(current_posts)} posts")
         print(f"✅ Initialization complete - {len(current_posts)} notifications sent")
-        exit(0)
-    
-    print(f"📋 Loaded {len(seen_posts)} previously seen posts")
-    
-    new_posts = [
-        post for post in current_posts 
-        if post not in seen_posts
-    ]
-    
-    if new_posts:
-        print(f"🆕 Found {len(new_posts)} new posts to process")
-        for post in new_posts:
-            print(f"📝 Processing: {post['title']}")
-            # Fetch full content from the post's detail page
-            content = get_post_content(post["link"])
-            send_telegram_alert(
-                title=post["title"],
-                link=post["link"],
-                company=post["company"],
-                role=post["role"],
-                badges=post["badges"],
-            )
-        
-        seen_posts.extend(new_posts)
-        save_seen_posts(seen_posts)
-        print(f"💾 Updated seen posts file with {len(new_posts)} new entries")
-        print(f"✅ Monitoring complete - {len(new_posts)} notifications sent")
     else:
-        print("ℹ️  No new posts found - all posts already processed")
-        print("✅ Monitoring complete - no action needed")
+        print(f"📋 Loaded {len(seen_posts)} previously seen posts")
+        
+        # Create sets of post IDs for efficient comparison
+        seen_post_ids = {post.get('id', f"{post['title']}_{post['link']}") for post in seen_posts}
+        
+        # Find new posts by comparing IDs
+        new_posts = [
+            post for post in current_posts 
+            if post['id'] not in seen_post_ids
+        ]
+        
+        if new_posts:
+            print(f"🆕 Found {len(new_posts)} new posts to process")
+            for i, post in enumerate(reversed(new_posts), 1):
+                print(f"📝 Processing #{len(new_posts) - i + 1}: {post['title']}")
+                send_telegram_alert(
+                    title=post["title"],
+                    link=post["link"],
+                    company=post["company"],
+                    role=post["role"],
+                    badges=post["badges"],
+                    count=len(new_posts) - i + 1
+                )
+            
+            # Update seen_posts with current_posts (replace old data with new scrape)
+            save_seen_posts(current_posts)
+            print(f"💾 Updated seen posts file - stored {len(current_posts)} total posts")
+            print(f"✅ Monitoring complete - {len(new_posts)} notifications sent")
+        else:
+            print("ℹ️  No new posts found - all posts already processed")
+            # Still update the stored data with current scrape
+            save_seen_posts(current_posts)
+            print(f"💾 Updated seen posts file - stored {len(current_posts)} total posts")
+            print("✅ Monitoring complete - no action needed")
