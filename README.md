@@ -453,10 +453,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 📊 Project Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/DeshiMula-Update?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/DeshiMula-Update?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/DeshiMula-Update)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/DeshiMula-Update)
+![GitHub stars](https://img.shields.io/github/stars/khalakuzamanrony/DeshiMula-Update?style=social)
+![GitHub forks](https://img.shields.io/github/forks/khalakuzamanrony/DeshiMula-Update?style=social)
+![GitHub issues](https://img.shields.io/github/issues/khalakuzamanrony/DeshiMula-Update)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/khalakuzamanrony/DeshiMula-Update)
 
 ---
 
@@ -464,6 +464,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **Made with ❤️ for the Bangladeshi Tech Community**
 
-[⭐ Star this project](https://github.com/yourusername/DeshiMula-Update) if you find it helpful!
+[⭐ Star this project](https://github.com/khalakuzamanrony/DeshiMula-Update) if you find it helpful!
 
 </div>
