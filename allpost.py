@@ -14,7 +14,8 @@ load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 BASE_URL = "https://deshimula.com/"
-OUTPUT_FILE = "all_posts.json"
+STATE_FILE = "seen_posts.json"
+MAX_POSTS = 150  # Maximum posts to keep in circular buffer
 
 # Validate required environment variables
 if not TELEGRAM_TOKEN or not CHAT_ID:
@@ -192,17 +193,72 @@ def get_page_posts(url):
         log(f"Error scraping page {url}: {e}")
         return []
 
-def load_existing_posts(filename):
-    """Load existing posts from file"""
+def load_seen_posts():
+    """Load previously seen posts from state file"""
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f)
+        with open(STATE_FILE, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+            if not content:
+                return []
+            posts = json.loads(content)
+            if not isinstance(posts, list):
+                return []
+            return posts
     except FileNotFoundError:
         log("No existing posts file found, starting fresh")
         return []
-    except Exception as e:
-        log(f"Error loading existing posts: {e}")
+    except json.JSONDecodeError as e:
+        log(f"JSON decode error: {e}")
+        log("Backing up corrupted file and starting fresh...")
+        import shutil
+        shutil.move(STATE_FILE, f"{STATE_FILE}.backup")
         return []
+    except Exception as e:
+        log(f"Error loading seen posts: {e}")
+        return []
+
+def save_seen_posts_with_buffer(posts):
+    """Save posts with circular buffer management (max 150 posts)"""
+    # Limit to MAX_POSTS
+    if len(posts) > MAX_POSTS:
+        posts = posts[:MAX_POSTS]
+        log(f"Buffer limit reached. Keeping newest {MAX_POSTS} posts, removed {len(posts) - MAX_POSTS} old posts")
+    
+    # Add index to all posts
+    for i, post in enumerate(posts):
+        post['index'] = i
+    
+    with open(STATE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(posts, f, indent=2, ensure_ascii=False)
+    
+    log(f"Saved {len(posts)} posts to buffer (max: {MAX_POSTS})")
+
+def find_new_posts(current_posts, seen_posts):
+    """Find new posts by comparing with existing posts"""
+    seen_post_ids = set()
+    for post in seen_posts:
+        post_id = post.get('id', f"{post.get('title', '')}_{post.get('link', '')}")
+        seen_post_ids.add(post_id)
+    
+    new_posts = []
+    for post in current_posts:
+        post_id = post.get('id', f"{post.get('title', '')}_{post.get('link', '')}")
+        if post_id not in seen_post_ids:
+            new_posts.append(post)
+    
+    return new_posts
+
+def update_buffer_with_new_posts(new_posts, existing_posts):
+    """Update circular buffer: preserve website ordering, limit to 150 posts"""
+    # Simply use the current scraped posts as they maintain website order
+    # New posts are already in correct order from scraping
+    current_posts = new_posts  # These are in website order (0-149)
+    
+    # Apply circular buffer limit - keep first 150 posts (website order)
+    if len(current_posts) > MAX_POSTS:
+        current_posts = current_posts[:MAX_POSTS]
+    
+    return current_posts
 
 def get_all_posts():
     """Get all posts from all pages starting from page 2"""
@@ -250,27 +306,15 @@ def get_all_posts():
     
     return all_posts
 
-def find_new_posts(current_posts, existing_posts):
-    """Find new posts by comparing with existing ones using IDs"""
-    existing_ids = {post.get('id', f"{post['title']}_{post['link']}") for post in existing_posts}
-    new_posts = [post for post in current_posts if post['id'] not in existing_ids]
-    return new_posts
-
-def save_to_file(posts, filename):
-    """Save posts to JSON file"""
-    try:
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(posts, f, indent=2, ensure_ascii=False)
-        log(f"Saved {len(posts)} posts to {filename}")
-    except Exception as e:
-        log(f"Error saving file: {e}")
+# Circular buffer functions integrated above
 
 if __name__ == "__main__":
     log("🔍 DeshiMula All Posts Monitor Started (Starting from Page 2)")
     
-    # Load existing posts
-    existing_posts = load_existing_posts(OUTPUT_FILE)
-    log(f"📋 Loaded {len(existing_posts)} existing posts")
+    # Load existing posts from circular buffer
+    existing_posts = load_seen_posts()
+    log(f"📊 Buffer Status: {len(existing_posts)}/{MAX_POSTS} posts")
+    log(f"📋 Loaded {len(existing_posts)} existing posts from buffer")
     
     # Get current posts from all pages (starting from page 2)
     log("🌐 Scraping all pages (skipping first page)...")
@@ -296,10 +340,18 @@ if __name__ == "__main__":
             time.sleep(3)  # Increased rate limiting to 3 seconds
         
         log(f"📊 Completed sending {len(new_posts)} notifications")
+        
+        # Update circular buffer with current posts (preserves website ordering)
+        updated_buffer = update_buffer_with_new_posts(current_posts, existing_posts)
+        save_seen_posts_with_buffer(updated_buffer)
     else:
         log("No new posts found")
+        # Still update the buffer with current posts to maintain website ordering
+        updated_buffer = update_buffer_with_new_posts(current_posts, existing_posts)
+        save_seen_posts_with_buffer(updated_buffer)
     
-    # Save all posts to JSON
-    save_to_file(current_posts, OUTPUT_FILE)
-    log(f"💾 Saved {len(current_posts)} total posts to {OUTPUT_FILE}")
+    # Show final buffer statistics
+    final_posts = load_seen_posts()
+    available_slots = MAX_POSTS - len(final_posts)
+    log(f"📈 Final Buffer: {len(final_posts)}/{MAX_POSTS} posts, {available_slots} slots available")
     log("✅ All posts scraping completed!")

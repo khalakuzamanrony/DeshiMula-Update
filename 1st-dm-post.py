@@ -17,6 +17,7 @@ CHAT_ID = os.getenv("CHAT_ID")
 BASE_URL = "https://deshimula.com/"
 STATE_FILE = "seen_posts.json"
 MAX_PAGES = 5  # Number of pages to scrape (first 5 pages)
+MAX_POSTS = 150  # Maximum posts to keep in circular buffer
 
 
 # Validate required environment variables
@@ -173,25 +174,65 @@ def load_seen_posts():
         with open(STATE_FILE, 'r', encoding='utf-8') as f:
             content = f.read().strip()
             if not content:
-                return None  # Empty file
-            return json.loads(content)
+                return []
+            posts = json.loads(content)
+            if not isinstance(posts, list):
+                return []
+            return posts
     except FileNotFoundError:
-        return None  # File doesn't exist
+        return []
     except json.JSONDecodeError as e:
         print(f"⚠️ JSON decode error: {e}")
         print("🔄 Backing up corrupted file and starting fresh...")
-        # Backup corrupted file
         import shutil
         shutil.move(STATE_FILE, f"{STATE_FILE}.backup")
-        return None
+        return []
     except Exception as e:
         print(f"⚠️ Error loading seen posts: {e}")
-        return None
+        return []
 
-def save_seen_posts(posts):
-    """Save current posts to state file with proper formatting"""
+def save_seen_posts_with_buffer(posts):
+    """Save posts with circular buffer management (max 150 posts)"""
+    # Limit to MAX_POSTS
+    if len(posts) > MAX_POSTS:
+        posts = posts[:MAX_POSTS]
+        print(f"🔄 Buffer limit reached. Keeping newest {MAX_POSTS} posts, removed {len(posts) - MAX_POSTS} old posts")
+    
+    # Add index to all posts
+    for i, post in enumerate(posts):
+        post['index'] = i
+    
     with open(STATE_FILE, 'w', encoding='utf-8') as f:
         json.dump(posts, f, indent=2, ensure_ascii=False)
+    
+    print(f"💾 Saved {len(posts)} posts to buffer (max: {MAX_POSTS})")
+
+def find_new_posts(current_posts, seen_posts):
+    """Find new posts by comparing with existing posts"""
+    seen_post_ids = set()
+    for post in seen_posts:
+        post_id = post.get('id', f"{post.get('title', '')}_{post.get('link', '')}")
+        seen_post_ids.add(post_id)
+    
+    new_posts = []
+    for post in current_posts:
+        post_id = post.get('id', f"{post.get('title', '')}_{post.get('link', '')}")
+        if post_id not in seen_post_ids:
+            new_posts.append(post)
+    
+    return new_posts
+
+def update_buffer_with_new_posts(new_posts, existing_posts):
+    """Update circular buffer: preserve website ordering, limit to 150 posts"""
+    # Simply use the current scraped posts as they maintain website order
+    # New posts are already in correct order from scraping
+    current_posts = new_posts  # These are in website order (0-149)
+    
+    # Apply circular buffer limit - keep first 150 posts (website order)
+    if len(current_posts) > MAX_POSTS:
+        current_posts = current_posts[:MAX_POSTS]
+    
+    return current_posts
 
 def send_telegram_alert(title, link, company, role, badges, count=None):
     """Send alert via Telegram with full post details and retry mechanism"""
@@ -260,14 +301,15 @@ if __name__ == "__main__":
     print(f"🔍 DeshiMula Review Monitor Started - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     seen_posts = load_seen_posts()
+    print(f"📊 Buffer Status: {len(seen_posts)}/{MAX_POSTS} posts")
     
     print(f"🌐 Checking for new posts from first {MAX_PAGES} pages...")
     current_posts = get_all_posts_from_pages()
     print(f"📊 Found {len(current_posts)} current posts from {MAX_PAGES} pages")
     
     # Handle both first run and subsequent runs
-    if seen_posts is None:
-        print("📄 No previous posts file found - first run detected")
+    if not seen_posts:  # Empty list means first run or no previous data
+        print("📄 No previous posts found - first run detected")
         print(f"🆕 Found {len(current_posts)} posts from {MAX_PAGES} pages - sending all as notifications")
         
         # Send notifications for all current posts on first run (reverse order)
@@ -283,21 +325,14 @@ if __name__ == "__main__":
             )
             time.sleep(3)  # Wait 3 seconds between messages to avoid rate limiting
         
-        # Save current posts after sending notifications
-        save_seen_posts(current_posts)
-        print(f"💾 Created seen_posts.json with {len(current_posts)} posts")
+        # Save current posts to buffer after sending notifications
+        save_seen_posts_with_buffer(current_posts)
         print(f"✅ First run complete - {len(current_posts)} notifications sent")
     else:
-        print(f"📋 Loaded {len(seen_posts)} previously seen posts")
+        print(f"📋 Loaded {len(seen_posts)} previously seen posts from buffer")
         
-        # Create sets of post IDs for efficient comparison
-        seen_post_ids = {post.get('id', f"{post['title']}_{post['link']}") for post in seen_posts}
-        
-        # Find new posts by comparing IDs
-        new_posts = [
-            post for post in current_posts 
-            if post['id'] not in seen_post_ids
-        ]
+        # Find new posts
+        new_posts = find_new_posts(current_posts, seen_posts)
         
         if new_posts:
             print(f"🆕 Found {len(new_posts)} new posts to process")
@@ -313,13 +348,18 @@ if __name__ == "__main__":
                 )
                 time.sleep(3)  # Wait 3 seconds between messages to avoid rate limiting
             
-            # Update seen_posts with current_posts (replace old data with new scrape)
-            save_seen_posts(current_posts)
-            print(f"💾 Updated seen posts file - stored {len(current_posts)} total posts")
+            # Update buffer with current posts (preserves website ordering)
+            updated_buffer = update_buffer_with_new_posts(current_posts, seen_posts)
+            save_seen_posts_with_buffer(updated_buffer)
             print(f"✅ Monitoring complete - {len(new_posts)} notifications sent")
         else:
             print("ℹ️  No new posts found - all posts already processed")
-            # Still update the stored data with current scrape
-            save_seen_posts(current_posts)
-            print(f"💾 Updated seen posts file - stored {len(current_posts)} total posts")
+            # Still update the buffer with current posts to maintain website ordering
+            updated_buffer = update_buffer_with_new_posts(current_posts, seen_posts)
+            save_seen_posts_with_buffer(updated_buffer)
             print("✅ Monitoring complete - no new notifications needed")
+    
+    # Show final buffer statistics
+    final_posts = load_seen_posts()
+    available_slots = MAX_POSTS - len(final_posts)
+    print(f"📈 Final Buffer: {len(final_posts)}/{MAX_POSTS} posts, {available_slots} slots available")
