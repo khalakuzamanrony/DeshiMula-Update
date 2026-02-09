@@ -1,5 +1,101 @@
 [
   {
+    "id": "Not a great place to work_https://deshimula.com/story/69893ed4d42e285a72b7f4dd",
+    "title": "Not a great place to work",
+    "link": "https://deshimula.com/story/69893ed4d42e285a72b7f4dd",
+    "company": "Cef@lo",
+    "role": "QA Engineer",
+    "badges": [
+      "Negative",
+      "Not Verified"
+    ],
+    "index": 0
+  },
+  {
+    "id": "এটা কি কোনো সভ্য প্রতিষ্ঠানের আচরণ?_https://deshimula.com/story/6989d511d42e285a72b95f7a",
+    "title": "এটা কি কোনো সভ্য প্রতিষ্ঠানের আচরণ?",
+    "link": "https://deshimula.com/story/6989d511d42e285a72b95f7a",
+    "company": "Betopi@ / BdCa11ing / $parktech / S0ftv3nce / $M Tech / B@ckventure",
+    "role": "Anonymous",
+    "badges": [
+      "Negative",
+      "Not Verified"
+    ],
+    "index": 1
+  },
+  {
+    "id": "Hands-On Learning with a Friendly, Transparent Workplace._https://deshimula.com/story/6989bb32d42e285a72b912d6",
+    "title": "Hands-On Learning with a Friendly, Transparent Workplace.",
+    "link": "https://deshimula.com/story/6989bb32d42e285a72b912d6",
+    "company": "WWW Engineers Ltd",
+    "role": "Software Dev",
+    "badges": [
+      "Positive",
+      "Not Verified"
+    ],
+    "index": 2
+  },
+  {
+    "id": "আকর্ষণীয় ইন্টার্নশিপ প্যাকেজ + ফুল টাইম রোলের মত দায়িত্বশীলতা_https://deshimula.com/story/69897bc1d42e285a72b85e04",
+    "title": "আকর্ষণীয় ইন্টার্নশিপ প্যাকেজ + ফুল টাইম রোলের মত দায়িত্বশীলতা",
+    "link": "https://deshimula.com/story/69897bc1d42e285a72b85e04",
+    "company": "N3w Vis!on IT Ltd",
+    "role": "সিনিয়র এক্সিকিউটিভ",
+    "badges": [
+      "Positive",
+      "Not Verified"
+    ],
+    "index": 3
+  },
+  {
+    "id": "Why no legal actions are taken against Bdcalling_https://deshimula.com/story/69896551d42e285a72b81c0d",
+    "title": "Why no legal actions are taken against Bdcalling",
+    "link": "https://deshimula.com/story/69896551d42e285a72b81c0d",
+    "company": "Betopi@ / BdCa11ing / $parktech / S0ftv3nce / $M Tech / B@ckventure",
+    "role": "Flutter Developer",
+    "badges": [
+      "Negative",
+      "Not Verified"
+    ],
+    "index": 4
+  },
+  {
+    "id": "নাস্তিক কোম্পানি রোজায় ফুল টাইম ডিউটি করাবে।_https://deshimula.com/story/6988e397d42e285a72b798ee",
+    "title": "নাস্তিক কোম্পানি রোজায় ফুল টাইম ডিউটি করাবে।",
+    "link": "https://deshimula.com/story/6988e397d42e285a72b798ee",
+    "company": "Betopi@ / BdCa11ing / $parktech / S0ftv3nce / $M Tech / B@ckventure",
+    "role": "Developer",
+    "badges": [
+      "Negative",
+      "Not Verified"
+    ],
+    "index": 5
+  },
+  {
+    "id": "টাইমিং নিয়ে ধান্দাবাজি_https://deshimula.com/story/6988e070d42e285a72b7926a",
+    "title": "টাইমিং নিয়ে ধান্দাবাজি",
+    "link": "https://deshimula.com/story/6988e070d42e285a72b7926a",
+    "company": "Betopi@ / BdCa11ing / $parktech / S0ftv3nce / $M Tech / B@ckventure",
+    "role": "Developer",
+    "badges": [
+      "Negative",
+      "Not Verified"
+    ],
+    "index": 6
+  },
+  {
+    "id": "Only for fresher or beginner_https://deshimula.com/story/698869f5d42e285a72b616e5",
+    "title": "Only for fresher or beginner",
+    "link": "https://deshimula.com/story/698869f5d42e285a72b616e5",
+    "company": "Betopi@ / BdCa11ing / $parktech / S0ftv3nce / $M Tech / B@ckventure",
+    "role": "Jr. Flutter Developer",
+    "badges": [
+      "Mixed",
+      "Not Verified"
+    ],
+    "index": 7
+  },
+  {
     "id": "একদিনের ছুটি মানে ভোটাধিকার নয়_https://deshimula.com/story/69875cb3d42e285a72b393d9",
     "title": "একদিনের ছুটি মানে ভোটাধিকার নয়",
     "link": "https://deshimula.com/story/69875cb3d42e285a72b393d9",
@@ -9,7 +105,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 0
+    "index": 8
   },
   {
     "id": "উপরে ফিটফাট, ভিতরে সদরঘাট_https://deshimula.com/story/698755add42e285a72b36bf5",
@@ -21,7 +117,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 1
+    "index": 9
   },
   {
     "id": "Good workplace, good engineering environment_https://deshimula.com/story/69872c4ad42e285a72b2d67d",
@@ -33,7 +129,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 2
+    "index": 10
   },
   {
     "id": "আমার অভিজ্ঞতা_https://deshimula.com/story/69870cc2d42e285a72b276e8",
@@ -45,7 +141,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 3
+    "index": 11
   },
   {
     "id": "Waste of time and money!_https://deshimula.com/story/6986e1e9d42e285a72b1b0e3",
@@ -57,7 +153,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 4
+    "index": 12
   },
   {
     "id": "7th floor frustrated for manager_https://deshimula.com/story/6986447ed42e285a72b1004a",
@@ -69,7 +165,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 5
+    "index": 13
   },
   {
     "id": "কেন Inte11ier জয়েন করবেন?_https://deshimula.com/story/69862582d42e285a72b0c3f6",
@@ -81,7 +177,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 6
+    "index": 14
   },
   {
     "id": "Dear T**** Vai, It's still not too late..._https://deshimula.com/story/6985fa20d42e285a72b04dc2",
@@ -93,7 +189,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 7
+    "index": 15
   },
   {
     "id": "জানতে চাই_https://deshimula.com/story/6985ea42d42e285a72b0258b",
@@ -105,7 +201,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 8
+    "index": 16
   },
   {
     "id": "Third-Class Reality_https://deshimula.com/story/6985d097d42e285a72afffe5",
@@ -117,7 +213,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 9
+    "index": 17
   },
   {
     "id": "One Day Leave for a Once-in-20-Years Election_https://deshimula.com/story/69857bcdd42e285a72af1914",
@@ -129,7 +225,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 10
+    "index": 18
   },
   {
     "id": "Interview dite gesi baze experience_https://deshimula.com/story/6984dec5d42e285a72ae2059",
@@ -141,7 +237,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 11
+    "index": 19
   },
   {
     "id": "বেতন না দেওয়া ও বাজে কর্মপরিবেশ_https://deshimula.com/story/6984a03fd42e285a72ad4aad",
@@ -153,7 +249,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 12
+    "index": 20
   },
   {
     "id": "ছুটি নয়, কেড়ে নেওয়া হচ্ছে ৫,০০০ কর্মীর সাংবিধানিক ভোটাধিকার_https://deshimula.com/story/69843ea7d42e285a72ab195b",
@@ -165,7 +261,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 13
+    "index": 21
   },
   {
     "id": "Why!?_https://deshimula.com/story/69843de4d42e285a72ab1279",
@@ -177,7 +273,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 14
+    "index": 22
   },
   {
     "id": "A Version of Micromanagement Trap for software engineer. Careful on Appointment letter._https://deshimula.com/story/69837696d42e285a72a78f4b",
@@ -189,7 +285,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 15
+    "index": 23
   },
   {
     "id": "Behind the Noise: Freshers Get Real Wings Here. Not Perfect, But Purposeful._https://deshimula.com/story/69836459d42e285a72a70b66",
@@ -201,7 +297,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 16
+    "index": 24
   },
   {
     "id": "নাস্তিক **** *** ***_https://deshimula.com/story/6983428fd42e285a72a5f32d",
@@ -213,7 +309,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 17
+    "index": 25
   },
   {
     "id": "একটি আধুনিক সার্কাসের করুণ উপাখ্যান_https://deshimula.com/story/6982fedfd42e285a72a436fe",
@@ -225,7 +321,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 18
+    "index": 26
   },
   {
     "id": "Male centric, alcohol with hookers party_https://deshimula.com/story/69823d0cd42e285a729f3fac",
@@ -237,7 +333,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 19
+    "index": 27
   },
   {
     "id": "Worked like a family but ended up being betrayed_https://deshimula.com/story/6982245cd42e285a729e0b3b",
@@ -249,7 +345,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 20
+    "index": 28
   },
   {
     "id": "এই কোম্পানিতে জয়েন মানেই ক্যারিয়ার ধ্বংস – বাস্তব অভিজ্ঞতা_https://deshimula.com/story/69820af0d42e285a729c79b6",
@@ -261,7 +357,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 21
+    "index": 29
   },
   {
     "id": "মুরগি খুঁজি তিতিতিতি_https://deshimula.com/story/6981b4bdd42e285a729a0a95",
@@ -273,7 +369,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 22
+    "index": 30
   },
   {
     "id": "যেখানে আপনার ইফোর্টকে প্রপার ভ্যালু দেওয়ার চেষ্টা করা হয় এবং একচুয়াল ফ্যামিলি লাইক ফীল পাওয়া যায়_https://deshimula.com/story/6981ab92d42e285a7299e9ee",
@@ -285,7 +381,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 23
+    "index": 31
   },
   {
     "id": "মুখে মধু অন্তরে বিষে বিষে বিষক্রিয়া_https://deshimula.com/story/69819693d42e285a7299bbcb",
@@ -297,7 +393,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 24
+    "index": 32
   },
   {
     "id": "Nepotism_https://deshimula.com/story/69817ba8d42e285a7299138d",
@@ -309,7 +405,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 25
+    "index": 33
   },
   {
     "id": "Interview Experience_https://deshimula.com/story/69809368b74ca2c963e13454",
@@ -321,7 +417,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 26
+    "index": 34
   },
   {
     "id": "কথা দিয়ে কথা না রাখার আরেক নাম_https://deshimula.com/story/697f8ba0b74ca2c963df977f",
@@ -333,7 +429,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 27
+    "index": 35
   },
   {
     "id": "No Career Growth_https://deshimula.com/story/697f67c2b74ca2c963df4d3a",
@@ -345,7 +441,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 28
+    "index": 36
   },
   {
     "id": "Scammer company theke 1000 hat dure thakun._https://deshimula.com/story/697ede9bb74ca2c963ddbac4",
@@ -357,7 +453,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 29
+    "index": 37
   },
   {
     "id": "অল্প বিদ্যা ভয়ংকরী কথায় কথায় ডিকশনারি (dictionary)_https://deshimula.com/story/697e3d5fb74ca2c963dcfe2f",
@@ -369,7 +465,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 30
+    "index": 38
   },
   {
     "id": "কর্মপরিবেশ ও অপারেশনাল সমস্যাসমূহ সম্পর্কিত জরুরি প্রতিক্রিয়া_https://deshimula.com/story/697d9907b74ca2c963db9c16",
@@ -381,7 +477,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 31
+    "index": 39
   },
   {
     "id": "CTO Disaster at Ye$ Global Tech: Zero Real-World Skills_https://deshimula.com/story/697ca8b2b74ca2c963daaef4",
@@ -393,7 +489,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 32
+    "index": 40
   },
   {
     "id": "Scammer company_https://deshimula.com/story/697c63acb74ca2c963da1d8b",
@@ -405,7 +501,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 33
+    "index": 41
   },
   {
     "id": "স্বেচ্ছাচারিতার নীরব ইতিহাস_https://deshimula.com/story/697c0325b74ca2c963d9c6d2",
@@ -417,7 +513,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 34
+    "index": 42
   },
   {
     "id": "HR in Action (Results Not Included)_https://deshimula.com/story/697b5578b74ca2c963d86b56",
@@ -429,7 +525,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 35
+    "index": 43
   },
   {
     "id": "একটা ফালতু অফিস_https://deshimula.com/story/697aff2eb74ca2c963d79aa7",
@@ -441,7 +537,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 36
+    "index": 44
   },
   {
     "id": "যোগ দেওয়ার আগে শতবার ভাবুন — Pros কম, Cons অনেক — অভিজ্ঞতা থেকে সতর্কবার্তা_https://deshimula.com/story/697a50d3b74ca2c963d6a529",
@@ -453,7 +549,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 37
+    "index": 45
   },
   {
     "id": "@GT's Clique-Driven Toxicity – You're Either In or You're Screwed_https://deshimula.com/story/697a49e1b74ca2c963d69234",
@@ -465,7 +561,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 38
+    "index": 46
   },
   {
     "id": "Worst work culture_https://deshimula.com/story/6979f73fb74ca2c963d5c273",
@@ -477,7 +573,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 39
+    "index": 47
   },
   {
     "id": "Design আছে, Deadline আছে—কিন্তু Salary কোথায়?_https://deshimula.com/story/6979f507b74ca2c963d5bad2",
@@ -489,7 +585,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 40
+    "index": 48
   },
   {
     "id": "2SL & it's A**licker Bosses_https://deshimula.com/story/69790564b74ca2c963d3e520",
@@ -501,7 +597,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 41
+    "index": 49
   },
   {
     "id": "অহংকার পতনের মুল_https://deshimula.com/story/69785da7b74ca2c963d1f5b0",
@@ -513,7 +609,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 42
+    "index": 50
   },
   {
     "id": "ইন্টার্নশিপ নামে ধোকা শুধুমাত্র কোম্পানির প্রচার এবং বিজ্ঞাপন_https://deshimula.com/story/6977c43ab74ca2c963d10211",
@@ -525,7 +621,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 43
+    "index": 51
   },
   {
     "id": "Internship এর নামে মেন্টাল টর্চার সেল এবং একজন সাইকোপ্যাথ Line manager_https://deshimula.com/story/6975bde3b74ca2c963cc982e",
@@ -537,7 +633,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 44
+    "index": 52
   },
   {
     "id": "ইন্টার্নশিপের নামে জুয়ার অ্যাপ ডিজাইন এবং চরম অপেশাদারিত্ব_https://deshimula.com/story/69762b6bb74ca2c963cd7871",
@@ -549,7 +645,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 45
+    "index": 53
   },
   {
     "id": "Got Scammed by CEO_https://deshimula.com/story/6970ff96b74ca2c963c46cfc",
@@ -561,7 +657,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 46
+    "index": 54
   },
   {
     "id": "Fraud Company_https://deshimula.com/story/6975afd6b74ca2c963cc785c",
@@ -573,7 +669,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 47
+    "index": 55
   },
   {
     "id": "কাজের জায়গা নাকি চাপের কারখানা?_https://deshimula.com/story/6972ea65b74ca2c963c810dd",
@@ -585,7 +681,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 48
+    "index": 56
   },
   {
     "id": "Personal record book keeper_https://deshimula.com/story/69725c44b74ca2c963c742c7",
@@ -597,7 +693,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 49
+    "index": 57
   },
   {
     "id": "Dark days are coming_https://deshimula.com/story/6971e54bb74ca2c963c600db",
@@ -609,7 +705,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 50
+    "index": 58
   },
   {
     "id": "Recruitment এর নামে ভন্ডামি! APPLY AT YOUR OWN RISK_https://deshimula.com/story/697105abb74ca2c963c47c9e",
@@ -621,7 +717,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 51
+    "index": 59
   },
   {
     "id": "Ek-Bal: The Admin Who Thinks He’s CEO_https://deshimula.com/story/696fd6f1b74ca2c963c1512e",
@@ -633,7 +729,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 52
+    "index": 60
   },
   {
     "id": "Hope Ro><nor overcome all difficulties_https://deshimula.com/story/696fa602b74ca2c963c0cfde",
@@ -645,7 +741,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 53
+    "index": 61
   },
   {
     "id": "যোগ্যতা নয়, চাটুকারিই মাপকাঠি_https://deshimula.com/story/696f79cfb74ca2c963c04d16",
@@ -657,7 +753,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 54
+    "index": 62
   },
   {
     "id": "এই গার্মেন্টস নিয়ে অনেকেই সবসময় কথা বলে_https://deshimula.com/story/696f72a1b74ca2c963c03a19",
@@ -669,7 +765,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 55
+    "index": 63
   },
   {
     "id": "Good in professional Behaviour_https://deshimula.com/story/696f4b24b74ca2c963bfda80",
@@ -681,7 +777,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 56
+    "index": 64
   },
   {
     "id": "Do not remove real things about Oce@nget_https://deshimula.com/story/696f2af1b74ca2c963bf6701",
@@ -693,7 +789,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 57
+    "index": 65
   },
   {
     "id": "ক্যারিয়ার ধ্বংসের কারিগর_https://deshimula.com/story/696f2404b74ca2c963bf3b92",
@@ -705,7 +801,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 58
+    "index": 66
   },
   {
     "id": "Tel mathai tel dewar jonne award_https://deshimula.com/story/696f1ae4b74ca2c963bf23e3",
@@ -717,7 +813,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 59
+    "index": 67
   },
   {
     "id": "Bullshit_https://deshimula.com/story/696e0467b74ca2c963bcb3d4",
@@ -729,7 +825,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 60
+    "index": 68
   },
   {
     "id": "যেখানে ডিজাইন মানেই \"ফ্রি সার্ভিস\" আর বেতন মানেই \"জোকস\"!_https://deshimula.com/story/696df86eb74ca2c963bc88a7",
@@ -741,7 +837,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 61
+    "index": 69
   },
   {
     "id": "ইন্টারভিউ দিতে গিয়ে দেখি আমি ভুলে Google -এ এসে পরেছি_https://deshimula.com/story/696ce0b6b74ca2c963ba827a",
@@ -753,7 +849,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 62
+    "index": 70
   },
   {
     "id": "এ যেন জুলুম এবং দুর্নীতির জায়গা, আগাগোড়া প্রতারণা_https://deshimula.com/story/696c9cd8b74ca2c963b994a2",
@@ -765,7 +861,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 63
+    "index": 71
   },
   {
     "id": "সব ডিসিশন নিবে মালিক আর মার্কেটিং টিম, দোষ হবে ডেভেলপারদের_https://deshimula.com/story/696bc735b74ca2c963b86c0a",
@@ -777,7 +873,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 64
+    "index": 72
   },
   {
     "id": "মনের কিছু কথা ও কোম্পানির জন্য শুভকামনা।_https://deshimula.com/story/696a21d9b74ca2c963b549c1",
@@ -789,7 +885,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 65
+    "index": 73
   },
   {
     "id": "\"The only useful person\"_https://deshimula.com/story/696a1ee4b74ca2c963b547ae",
@@ -801,7 +897,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 66
+    "index": 74
   },
   {
     "id": "Fraud Project Manager_https://deshimula.com/story/6968a565b74ca2c963b1f707",
@@ -813,7 +909,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 67
+    "index": 75
   },
   {
     "id": "Leadership, Culture, and Ethics: An Honest Reflection_https://deshimula.com/story/6967d250b74ca2c963b0538d",
@@ -825,7 +921,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 68
+    "index": 76
   },
   {
     "id": "Do not remove the bad experience_https://deshimula.com/story/69679520b74ca2c963af603f",
@@ -837,7 +933,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 69
+    "index": 77
   },
   {
     "id": "Harasser Company_https://deshimula.com/story/696755c1b74ca2c963aec07e",
@@ -849,7 +945,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 70
+    "index": 78
   },
   {
     "id": "We Worked While They Slept. Then They Erased Us._https://deshimula.com/story/696749adb74ca2c963ae90ac",
@@ -861,7 +957,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 71
+    "index": 79
   },
   {
     "id": "CEO একাই 💯_https://deshimula.com/story/6966d1cbb74ca2c963adc943",
@@ -873,7 +969,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 72
+    "index": 80
   },
   {
     "id": "Incompetent illiterate micromanager at !QVIA_https://deshimula.com/story/696547f3b74ca2c963a9e9b6",
@@ -885,7 +981,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 73
+    "index": 81
   },
   {
     "id": "Employee der personal message check kore_https://deshimula.com/story/6964c841b74ca2c963a8b33d",
@@ -897,7 +993,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 74
+    "index": 82
   },
   {
     "id": "Letter to my beloved Ex-Colleagues!!_https://deshimula.com/story/6964bbf0b74ca2c963a88c61",
@@ -909,7 +1005,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 75
+    "index": 83
   },
   {
     "id": "Don't try to prove me wrong!_https://deshimula.com/story/6964b9f7b74ca2c963a88700",
@@ -921,7 +1017,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 76
+    "index": 84
   },
   {
     "id": "My Personal Experience at Sp@rkTech Agency (Part of B3topia)_https://deshimula.com/story/69634f05b74ca2c963a59631",
@@ -933,7 +1029,7 @@
       "Positive",
       "Verified"
     ],
-    "index": 77
+    "index": 85
   },
   {
     "id": "Purai Garments Company, CEO is a kalsi road ar autowala_https://deshimula.com/story/69633cd8b74ca2c963a54c32",
@@ -945,7 +1041,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 78
+    "index": 86
   },
   {
     "id": "How Misuse of Power Is Destroying the BR@C IT SQA Team_https://deshimula.com/story/69624093b74ca2c963a3f44d",
@@ -957,7 +1053,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 79
+    "index": 87
   },
   {
     "id": "A \"So-Called\" Software Company Run by Non-Technical Management_https://deshimula.com/story/6962228ab74ca2c963a3b5c6",
@@ -969,7 +1065,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 80
+    "index": 88
   },
   {
     "id": "Hard Work + Smart Work = Success_https://deshimula.com/story/696220c8b74ca2c963a3aea8",
@@ -981,7 +1077,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 81
+    "index": 89
   },
   {
     "id": "ধোকেবাজ কোম্পানি_https://deshimula.com/story/69628fcab74ca2c963a47153",
@@ -993,7 +1089,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 82
+    "index": 90
   },
   {
     "id": "ইনক্রিমেন্ট পাবেন না, চাইলে চাকরি যাবে।_https://deshimula.com/story/6961ee7eb74ca2c963a31dd2",
@@ -1005,7 +1101,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 83
+    "index": 91
   },
   {
     "id": "What Many Saw but Few Spoke About: An Uncomfortable Reality Inside a Corporate Office_https://deshimula.com/story/6961012cb74ca2c963a1c383",
@@ -1017,7 +1113,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 84
+    "index": 92
   },
   {
     "id": "মাঞ্জমেন্ট এর অবহেলা_https://deshimula.com/story/6960f3b9b74ca2c963a1a2d0",
@@ -1029,7 +1125,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 85
+    "index": 93
   },
   {
     "id": "জব অফার দিয়ে হারিয়ে গেছে | Give me a job offer and ghost me._https://deshimula.com/story/6960ae2ab74ca2c963a12ca4",
@@ -1041,7 +1137,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 86
+    "index": 94
   },
   {
     "id": "Great company but hell interview experience_https://deshimula.com/story/695f67c4b74ca2c9639eb840",
@@ -1053,7 +1149,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 87
+    "index": 95
   },
   {
     "id": "No Mission, No Vision, Only Nepotism_https://deshimula.com/story/695dff39b74ca2c9639ab445",
@@ -1065,7 +1161,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 88
+    "index": 96
   },
   {
     "id": "Salary Evaluation নিয়ে কিছু বাস্তব Observation_https://deshimula.com/story/695d30d2b74ca2c96398f275",
@@ -1077,7 +1173,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 89
+    "index": 97
   },
   {
     "id": "Age ki shundor din kataitam_https://deshimula.com/story/695ff1f8b74ca2c963a043b4",
@@ -1089,7 +1185,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 90
+    "index": 98
   },
   {
     "id": "Do not join senior developer_https://deshimula.com/story/695f88edb74ca2c9639f5801",
@@ -1101,7 +1197,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 91
+    "index": 99
   },
   {
     "id": "Promise great things - then leave blank_https://deshimula.com/story/695f6664b74ca2c9639eb6f5",
@@ -1113,7 +1209,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 92
+    "index": 100
   },
   {
     "id": "Scammer Alert_https://deshimula.com/story/695f3b79b74ca2c9639e0fb9",
@@ -1125,7 +1221,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 93
+    "index": 101
   },
   {
     "id": "পরিবার তন্ত্রের অধীনে কামলা খাটুন_https://deshimula.com/story/695f1548b74ca2c9639dc463",
@@ -1137,7 +1233,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 94
+    "index": 102
   },
   {
     "id": "Very positive vibe and friendly work environment_https://deshimula.com/story/695e958bb74ca2c9639d24c6",
@@ -1149,7 +1245,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 95
+    "index": 103
   },
   {
     "id": "নোটিশ প্রিয়ড এর আগে জানানোর পরও লাষ্ট ২ মাসের বেতন এখনো দেয়নি।_https://deshimula.com/story/695e750db74ca2c9639c96bd",
@@ -1161,7 +1257,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 96
+    "index": 104
   },
   {
     "id": "Experience at Mediusware_https://deshimula.com/story/695d4bc8b74ca2c9639942f4",
@@ -1173,7 +1269,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 97
+    "index": 105
   },
   {
     "id": "Vulgar Work Culture- বড় আপু ***।_https://deshimula.com/story/695cd28eb74ca2c96397bd20",
@@ -1185,7 +1281,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 98
+    "index": 106
   },
   {
     "id": "লাঞ্চ সার্ভিসের ভয়াবহ অবস্থা নেপোটিজমের জন্য।_https://deshimula.com/story/695cc489b74ca2c963978e4a",
@@ -1197,7 +1293,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 99
+    "index": 107
   },
   {
     "id": "A truly friendly company culture_https://deshimula.com/story/695cb59db74ca2c9639741ec",
@@ -1209,7 +1305,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 100
+    "index": 108
   },
   {
     "id": "Discrimination to other teams by the developer team._https://deshimula.com/story/695cac4fb74ca2c9639721c3",
@@ -1221,7 +1317,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 101
+    "index": 109
   },
   {
     "id": "যা সত্য_https://deshimula.com/story/695a91fdb74ca2c963920381",
@@ -1233,7 +1329,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 102
+    "index": 110
   },
   {
     "id": "চাকরির চকচকে বিজ্ঞাপনের আড়ালে এক তিক্ত অভিজ্ঞতা_https://deshimula.com/story/69575662665842fbfa914c13",
@@ -1245,7 +1341,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 103
+    "index": 111
   },
   {
     "id": "Just look at their salary_https://deshimula.com/story/69568d5d665842fbfa8fdd5e",
@@ -1257,7 +1353,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 104
+    "index": 112
   },
   {
     "id": "সার্কাস_https://deshimula.com/story/69565b72665842fbfa8f59ba",
@@ -1269,7 +1365,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 105
+    "index": 113
   },
   {
     "id": "Aita akta jailkhana_https://deshimula.com/story/69563b8d665842fbfa8f017c",
@@ -1281,7 +1377,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 106
+    "index": 114
   },
   {
     "id": "ধর্ম, ট্রেন্ড - মুখোশ_https://deshimula.com/story/6956399f665842fbfa8efbc8",
@@ -1293,7 +1389,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 107
+    "index": 115
   },
   {
     "id": "Garments থেকেও খারাপ: A Corporate Tragedy_https://deshimula.com/story/69555cab665842fbfa8d68ce",
@@ -1305,7 +1401,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 108
+    "index": 116
   },
   {
     "id": "Exposing HARAM T3chForing Ltd: Professional Fraud and Alleged Money Laundering by C3O_https://deshimula.com/story/6954ed47665842fbfa8c3a9e",
@@ -1317,7 +1413,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 109
+    "index": 117
   },
   {
     "id": "Developers Are Replaceable Machine_https://deshimula.com/story/695416ab665842fbfa8af190",
@@ -1329,7 +1425,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 110
+    "index": 118
   },
   {
     "id": "নিজেদের বিশাল কিছু মনে করা এক ছোটলোকি কোম্পানি।_https://deshimula.com/story/69541133665842fbfa8ae4d5",
@@ -1341,7 +1437,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 111
+    "index": 119
   },
   {
     "id": "Introducing a Spineless Company_https://deshimula.com/story/6953dde7665842fbfa8a6203",
@@ -1353,7 +1449,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 112
+    "index": 120
   },
   {
     "id": "অফিস নাকি অমানুষের কারখানা?_https://deshimula.com/story/6953bf69665842fbfa8a0758",
@@ -1365,7 +1461,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 113
+    "index": 121
   },
   {
     "id": "Looks Strong on the Outside, Lacks Structure on the Inside_https://deshimula.com/story/69533c8f665842fbfa889c22",
@@ -1377,7 +1473,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 114
+    "index": 122
   },
   {
     "id": "বেতন কম, *** বেশি।_https://deshimula.com/story/6952a7e5665842fbfa876725",
@@ -1389,7 +1485,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 115
+    "index": 123
   },
   {
     "id": "Canadian Scam_https://deshimula.com/story/69512c5a665842fbfa83a6ac",
@@ -1401,7 +1497,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 116
+    "index": 124
   },
   {
     "id": "Don’t Judge a Company by Its Glossy Branding_https://deshimula.com/story/6950c60f665842fbfa82c5b6",
@@ -1413,7 +1509,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 117
+    "index": 125
   },
   {
     "id": "Operation Manager: It's just that every day when 5:30 pm comes you're out the door_https://deshimula.com/story/69502e92665842fbfa81e8b5",
@@ -1425,7 +1521,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 118
+    "index": 126
   },
   {
     "id": "With Harsh culture, cutting money from employee_https://deshimula.com/story/695012e5665842fbfa8193c0",
@@ -1437,7 +1533,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 119
+    "index": 127
   },
   {
     "id": "Ghosting Candidates After Multiple Rounds of Interview Rescheduling_https://deshimula.com/story/694fca37665842fbfa80e74c",
@@ -1449,7 +1545,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 120
+    "index": 128
   },
   {
     "id": "***** খেকো চোর কোম্পানি।_https://deshimula.com/story/694fb4e6665842fbfa80bcfb",
@@ -1461,7 +1557,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 121
+    "index": 129
   },
   {
     "id": "Everyone needs to know what these USA based Bengali owner company is doing_https://deshimula.com/story/694e61ba665842fbfa7eac75",
@@ -1473,7 +1569,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 122
+    "index": 130
   },
   {
     "id": "এই কোম্পানি তার ইমপ্লোয়িদের সাথে নেটফ্লিক্স সিরিজ squid game এর বাংলাদেশি ভার্সন খেলছে।_https://deshimula.com/story/694e3937665842fbfa7e78c5",
@@ -1485,7 +1581,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 123
+    "index": 131
   },
   {
     "id": "Chaos Behind the Screens_https://deshimula.com/story/694d81cb665842fbfa7d6953",
@@ -1497,7 +1593,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 124
+    "index": 132
   },
   {
     "id": "A so-called part-time Virtual Executive job turned into a nightmare of unpredictable shifts, zero respect and no work-life balance._https://deshimula.com/story/694d5975665842fbfa7d1600",
@@ -1509,7 +1605,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 125
+    "index": 133
   },
   {
     "id": "Overtime >>> Talent_https://deshimula.com/story/694d3e23665842fbfa7cd4e5",
@@ -1521,7 +1617,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 126
+    "index": 134
   },
   {
     "id": "I****k M**t is a batpar chor_https://deshimula.com/story/694c3204665842fbfa7b33bb",
@@ -1533,7 +1629,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 127
+    "index": 135
   },
   {
     "id": "কোম্পানি যখন ট্যালেন্টদের হাতের ময়লা মনে করে_https://deshimula.com/story/694bf0c2665842fbfa7aae89",
@@ -1545,7 +1641,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 128
+    "index": 136
   },
   {
     "id": "কাজের নাম এ প্রহসন_https://deshimula.com/story/694ba187665842fbfa7a040d",
@@ -1557,7 +1653,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 129
+    "index": 137
   },
   {
     "id": "Eyewash_https://deshimula.com/story/694a751f665842fbfa775f62",
@@ -1569,7 +1665,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 130
+    "index": 138
   },
   {
     "id": "Had a great time_https://deshimula.com/story/694a3ee0665842fbfa76871d",
@@ -1581,7 +1677,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 131
+    "index": 139
   },
   {
     "id": "Don’t Join Here Unless You Want to Hate Your Work Life_https://deshimula.com/story/69496262665842fbfa745cb5",
@@ -1593,7 +1689,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 132
+    "index": 140
   },
   {
     "id": "CEO has third class mentality. He is the main problem in the office_https://deshimula.com/story/694903dd665842fbfa730ba6",
@@ -1605,7 +1701,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 133
+    "index": 141
   },
   {
     "id": "উগ্রতা আর অপ্রেসাদারে মিল বন্ধন_https://deshimula.com/story/6947e2e0665842fbfa70aa23",
@@ -1617,7 +1713,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 134
+    "index": 142
   },
   {
     "id": "Clown of a HR_https://deshimula.com/story/6947e057665842fbfa70a3c9",
@@ -1629,7 +1725,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 135
+    "index": 143
   },
   {
     "id": "Sp@rkTech কোম্পানি সম্পর্কে বাস্তব অভিজ্ঞতা_https://deshimula.com/story/69478077665842fbfa6f9f56",
@@ -1641,7 +1737,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 136
+    "index": 144
   },
   {
     "id": "My personal experience of working with Giz@nTech._https://deshimula.com/story/6946df13665842fbfa6ecb76",
@@ -1653,7 +1749,7 @@
       "Positive",
       "Not Verified"
     ],
-    "index": 137
+    "index": 145
   },
   {
     "id": "People deserve protection, not exposure_https://deshimula.com/story/6946d330665842fbfa6ebb8a",
@@ -1665,7 +1761,7 @@
       "Mixed",
       "Not Verified"
     ],
-    "index": 138
+    "index": 146
   },
   {
     "id": "ভেতরে ঢুকলে আসল চিত্র বোঝা যায়_https://deshimula.com/story/6946d135665842fbfa6eb8be",
@@ -1677,7 +1773,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 139
+    "index": 147
   },
   {
     "id": "Stop Being SO Stupid! একদম ফাল্তু একটা কোম্পানি।_https://deshimula.com/story/6946d05f665842fbfa6eb7fb",
@@ -1689,7 +1785,7 @@
       "Negative",
       "Not Verified"
     ],
-    "index": 140
+    "index": 148
   },
   {
     "id": "Lower grade engineers are the parasites killing reputation_https://deshimula.com/story/694671b3665842fbfa6de1ca",
@@ -1699,102 +1795,6 @@
     "role": "Software Engineer",
     "badges": [
       "Mixed",
-      "Not Verified"
-    ],
-    "index": 141
-  },
-  {
-    "id": "All Promises, Zero Delivery_https://deshimula.com/story/6945a653665842fbfa6cb3f2",
-    "title": "All Promises, Zero Delivery",
-    "link": "https://deshimula.com/story/6945a653665842fbfa6cb3f2",
-    "company": "3ffic!ent Software Solutions Ltd",
-    "role": "Employee",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 142
-  },
-  {
-    "id": "Run!_https://deshimula.com/story/694585ec665842fbfa6c7334",
-    "title": "Run!",
-    "link": "https://deshimula.com/story/694585ec665842fbfa6c7334",
-    "company": "A11 Gen3rat!on Tech",
-    "role": "App Eng",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 143
-  },
-  {
-    "id": "Highly incapable HR Head_https://deshimula.com/story/69456500665842fbfa6c2cbd",
-    "title": "Highly incapable HR Head",
-    "link": "https://deshimula.com/story/69456500665842fbfa6c2cbd",
-    "company": "R!seup L@bs",
-    "role": "Anonymous",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 144
-  },
-  {
-    "id": "Unfair Recruitment Practice-a time waster_https://deshimula.com/story/6944e835665842fbfa6b4712",
-    "title": "Unfair Recruitment Practice-a time waster",
-    "link": "https://deshimula.com/story/6944e835665842fbfa6b4712",
-    "company": "Mutu@l Trust Bank PLC",
-    "role": "Anonymous",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 145
-  },
-  {
-    "id": "Unprofessional Environment and False Promises_https://deshimula.com/story/6943d3a3665842fbfa68f14d",
-    "title": "Unprofessional Environment and False Promises",
-    "link": "https://deshimula.com/story/6943d3a3665842fbfa68f14d",
-    "company": "F!ngerprint Information Technology Ltd",
-    "role": "Software Engineer",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 146
-  },
-  {
-    "id": "Scam company_https://deshimula.com/story/69435333665842fbfa67d231",
-    "title": "Scam company",
-    "link": "https://deshimula.com/story/69435333665842fbfa67d231",
-    "company": "Inter@ctive Cares",
-    "role": "Executive",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 147
-  },
-  {
-    "id": "রক্ষী বাহিনী পর্ব ৪  (পরিবার তন্ত্র বা ফ্যামিলি ট্রি)_https://deshimula.com/story/694306b4665842fbfa676f59",
-    "title": "রক্ষী বাহিনী পর্ব ৪  (পরিবার তন্ত্র বা ফ্যামিলি ট্রি)",
-    "link": "https://deshimula.com/story/694306b4665842fbfa676f59",
-    "company": "TechnoNe><t Ltd",
-    "role": "Manager",
-    "badges": [
-      "Negative",
-      "Not Verified"
-    ],
-    "index": 148
-  },
-  {
-    "id": "Please, touch some grass_https://deshimula.com/story/6941b55c665842fbfa640cb3",
-    "title": "Please, touch some grass",
-    "link": "https://deshimula.com/story/6941b55c665842fbfa640cb3",
-    "company": "3ffic!ent Software Solutions Ltd",
-    "role": "Anonymous",
-    "badges": [
-      "Negative",
       "Not Verified"
     ],
     "index": 149
